@@ -3,8 +3,10 @@
 Node* creatNode(const Student* student)
 {
 	Node* newNode = (Node*)malloc(sizeof(Node));
-	newNode->student = student;
-	newNode->next = NULL;
+    if (newNode != NULL) {
+        newNode->student = student;
+        newNode->next = NULL;
+    }
 	return newNode;
 }
 

@@ -9,4 +9,6 @@ Classes* createClasses();
 
 Classes* addNode(Classes* classes, Student* student);
 
+void print(Classes* classes);
+
 void freeClasses(Classes* classes);

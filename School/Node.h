@@ -1,9 +1,12 @@
 #pragma once
 #include "Student.h"
-typedef struct  {
+
+typedef struct Node Node;
+
+struct Node {
 	Student* student;
 	Node* next;
-}Node;
+};
 
 struct Node* creatNode(const Student* student);
 
