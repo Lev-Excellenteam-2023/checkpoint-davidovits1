@@ -1,26 +1,28 @@
 #include "Classes.h"
 
-Node* createLinkdinList(Student* student)
+Classes* createClasses(Student* student)
 {
-	Node* head = creatNode(student);
-	return head;
+	Classes* newClasses = (Classes*)malloc(sizeof(Classes));
+	newClasses->head = student;
+	return newClasses;
 }
 
-Node* addNode(Student* student, Node* head)
+Classes* addNode(Classes* classes, Student* student)
 {
 	Node* newHead = creatNode(student);
-	newHead->next = head;
-	return newHead;
+	newHead->next = classes->head;
+	classes->head = newHead;
+	return classes;
 }
 
-void freeLinkdinList(Node* head)
+void freeClasses(Classes* classes)
 {
-	Node* temp = head;
+	Node* temp = classes->head;
 	while (temp->next != NULL)
 	{
 		temp = temp->next;
-		freeNode(head);
-		head = temp;
+		freeNode(classes->head);
+		classes->head = temp;
 	}
-	freeNode(head);
+	freeNode(classes->head);
 }

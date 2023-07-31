@@ -1,8 +1,12 @@
 #pragma once
 #include "Node.h"
 
-Node* createLinkdinList(Student* student);
+typedef struct {
+    Node* head;
+}Classes;
 
-Node* addNode(Student* student, Node* head);
+Classes* createClasses(Student* student);
 
-void freeLinkdinList(Node* head);
+Classes* addNode(Classes* classes, Student* student);
+
+void freeClasses(Classes* classes);
