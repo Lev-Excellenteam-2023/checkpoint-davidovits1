@@ -2,6 +2,6 @@
 # Untrack files
 #
 
-out/
-.vs/
-School.vcxproj*
+School/out/
+School/.vs/
+School/School.vcxproj*
