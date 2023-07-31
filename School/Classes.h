@@ -5,7 +5,7 @@ typedef struct {
     Node* head;
 }Classes;
 
-Classes* createClasses(Student* student);
+Classes* createClasses();
 
 Classes* addNode(Classes* classes, Student* student);
 

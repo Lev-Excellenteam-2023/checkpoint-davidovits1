@@ -1,18 +1,29 @@
 #include "Classes.h"
 
-Classes* createClasses(Student* student)
+Classes* createClasses()
 {
 	Classes* newClasses = (Classes*)malloc(sizeof(Classes));
-	newClasses->head = student;
+	newClasses->head = NULL;
 	return newClasses;
 }
 
 Classes* addNode(Classes* classes, Student* student)
 {
-	Node* newHead = creatNode(student);
-	newHead->next = classes->head;
-	classes->head = newHead;
-	return classes;
+	//first element
+	if (classes->head == NULL)
+	{
+		classes->head = creatNode(student);
+		return classes;
+	}
+
+	else
+	{
+		Node* newHead = creatNode(student);
+		newHead->next = classes->head;
+		classes->head = newHead;
+		return classes;
+	}
+
 }
 
 void freeClasses(Classes* classes)
