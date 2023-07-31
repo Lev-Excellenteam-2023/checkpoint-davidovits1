@@ -5,4 +5,5 @@
 School/out/
 School/.vs/
 School/School.vcxproj*
-x64
+School/x64/Debug/
+School/x64/Debug/
