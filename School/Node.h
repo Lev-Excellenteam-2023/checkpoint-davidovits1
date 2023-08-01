@@ -8,6 +8,6 @@ struct Node {
 	Node* next;
 };
 
-struct Node* creatNode(const Student* student);
+struct Node* creatNode(Student* student);
 
 void freeNode(Node* node);

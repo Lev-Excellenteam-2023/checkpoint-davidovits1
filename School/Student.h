@@ -1,4 +1,5 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,7 +7,7 @@
 #define NUM_OF_GRADES 10
 #define LEN_PHONE 11
 
-typedef struct{
+typedef struct {
     char* firstName;
     char* lastName;
     char phone[LEN_PHONE];

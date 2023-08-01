@@ -47,5 +47,5 @@ void freeClasses(Classes* classes)
 		freeNode(classes->head);
 		classes->head = temp;
 	}
-	freeNode(classes->head);
+	free(classes);
 }
