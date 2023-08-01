@@ -35,16 +35,16 @@ bool validName(char* name);
 
 char* readPhone()
 {
-    char phone[11];
+    char* phone = (char*)malloc(11);
     int i = 0;
     printf("Enter your phone number\n");
-    scanf("%10s", &phone);
+    scanf("%10s", phone);
     while (phone[i] != '\0')
     {
         if (!isdigit(phone[i]))
         {
             printf("The number is not valid, enter your phone number\n");
-            scanf("%10s", &phone);
+            scanf("%10s", phone);
             i = 0;
         }
         else
@@ -60,6 +60,7 @@ Student* readStudent()
     char firstName[25];
     char lastName[25];
     char phone[11];
+    char* tempPhone;
 
     printf("Enter your first name\n");
     scanf("%24s", &firstName);
@@ -76,9 +77,10 @@ Student* readStudent()
         printf("The last name is not valid, enter your last name\n");
         scanf("%24s", &lastName);
     }
-
-    strcpy(phone, readPhone());
-
+    tempPhone = readPhone();
+    strcpy(phone, tempPhone);
+    free(tempPhone);
+    tempPhone = NULL;
 
     Student* s = createStudent(firstName, lastName, phone);
     return s;
@@ -158,18 +160,26 @@ int readIndexCourse()
     return indexCourse;
 }
 
+int readGrade()
+{
+    int grade;
+    printf("enter grade to change\n");
+    scanf("%d", &grade);
+
+    while (grade < MIN_GRADE || grade > MAX_GRADE)
+    {
+        printf("Invalid grade! enter grade again\n");
+        scanf("%d", &grade);
+    }
+    return grade;
+}
+
 void readGrads(Student* s)
 {
     int grades[10];
     for (int i = 0; i < 10; i++)
     {
-        printf("enter your grade %d\n", i);
-        scanf("%d", &grades[i]);
-        while (grades[i] < MIN_GRADE || grades[i] > MAX_GRADE)
-        {
-            printf("Invalid grade! enter your grade %d again\n", i);
-            scanf("%d", &grades[i]);
-        }
+        grades[i] = readGrade();
 
     }
     fillGrades(s, grades);
@@ -214,11 +224,16 @@ bool deleteStudentByPhone(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES], char
 
 void edit(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
 {
-    int index, grade;
+    int index = -1;
+    int grade = -1;
     char phone[11];
+    char* tempPhone;
     Student* s;
 
-    strcpy(phone, readPhone());
+    tempPhone = readPhone();
+    strcpy(phone, tempPhone);
+    free(tempPhone);
+    tempPhone = NULL;
 
     s = search(phone, school);
     if (s == NULL)
@@ -228,21 +243,9 @@ void edit(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
     }
     printStudent(s);
 
-    printf("enter index of grade\n");
-    scanf("%d", &index);
-    while (index < 0 || index > 9)
-    {
-        printf("Invalid index! enter index again\n");
-        scanf("%d", &index);
-    }
-    printf("enter grade to change\n");
-    scanf("%d", &grade);
+    index = readIndexCourse();
 
-    while (grade < MIN_GRADE || grade > MAX_GRADE)
-    {
-        printf("Invalid grade! enter grade again\n");
-        scanf("%d", &grade);
-    }
+    grade = readGrade();
 
     editStudent(s, index, grade);
     printStudent(s);
@@ -265,12 +268,10 @@ void printAverage(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES], int indexCou
 void menu(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES]) 
 {
     Student* s;
+    char* tempPhone;
     char input;
-    char firstName[25];
-    char lastName[25];
     char phone[11];
-    int level, cls, grade, indexCourse;
-    int grades[10];
+    int level, cls, indexCourse;
     // school.name = "schoolName";
     do {
         //printf("\n|School Manager<::>Home|\n");
@@ -307,7 +308,10 @@ void menu(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
             break;
 
         case Delete:
-            strcpy(phone, readPhone());
+            tempPhone = readPhone();
+            strcpy(phone, tempPhone);
+            free(tempPhone);
+            tempPhone = NULL;
             bool deleted = deleteStudentByPhone(school, phone);
 
             if (deleted)
@@ -323,7 +327,11 @@ void menu(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
             break;
 
         case Search:
-            strcpy(phone, readPhone());
+            
+            tempPhone = readPhone();
+            strcpy(phone, tempPhone);
+            free(tempPhone);
+            tempPhone = NULL;
             s = search(phone, school);
             if (s != NULL)
             {
