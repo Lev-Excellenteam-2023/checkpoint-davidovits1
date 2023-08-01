@@ -155,12 +155,11 @@ int readIndexCourse()
 {
     int indexCourse;
     printf("enter index of course\n");
-    scanf("%d", &indexCourse);
 
-    while (indexCourse < 0 || indexCourse > 9)
+    while (scanf("%d", &indexCourse) != 1 || indexCourse < 0 || indexCourse > 9)
     {
+        while (getchar() != '\n');
         printf("Course does not exist, enter index of course\n");
-        scanf("%d", &indexCourse);
     }
     return indexCourse;
 }
@@ -169,12 +168,11 @@ int readGrade()
 {
     int grade;
     printf("enter a grade\n");
-    scanf("%d", &grade);
 
-    while (grade < MIN_GRADE || grade > MAX_GRADE)
+    while (scanf("%d", &grade) != 1 || grade < MIN_GRADE || grade > MAX_GRADE)
     {
+        while (getchar() != '\n');
         printf("Invalid grade! enter grade again\n");
-        scanf("%d", &grade);
     }
     return grade;
 }
@@ -274,7 +272,8 @@ void menu(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
 {
     Student* s;
     char* tempPhone;
-    char input;
+    //char input;
+    int input;
     char phone[11];
     int level, cls, indexCourse;
     // school.name = "schoolName";
@@ -293,12 +292,17 @@ void menu(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
         printf("\t[8] |--> Export\n");
         printf("\t[9] |--> Exit\n");
         printf("\n\tPlease Enter Your Choice (0-9): ");
-        input = getc(stdin);
-        fflush(stdin);
-        getc(stdin);
+ 
+        if (scanf("%d", &input) != 1) {
+            // Invalid input, clear the input buffer
+            while (getchar() != '\n');
+
+            printf("\nInvalid input. Please enter a number between 0 and 9.\n");
+            continue;
+        }
 
         switch (input) {
-        case Insert:
+        case 0:
             s = readStudent();
 
             level = readLevel();
@@ -312,7 +316,7 @@ void menu(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
             school[level][cls] = addNode(school[level][cls], s);
             break;
 
-        case Delete:
+        case 1:
             tempPhone = readPhone();
             strcpy(phone, tempPhone);
             free(tempPhone);
@@ -326,12 +330,12 @@ void menu(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
 
             break;
 
-        case Edit:
+        case 2:
             edit(school);
 
             break;
 
-        case Search:
+        case 3:
             
             tempPhone = readPhone();
             strcpy(phone, tempPhone);
@@ -348,43 +352,44 @@ void menu(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
           
             break;
 
-        case Showall:
+        case 4:
             printAllStudents(school);
             break;
 
-        case Top10:
+        case 5:
             //printTopNStudentsPerCourse();
             break;
 
-        case UnderperformedStudents:
+        case 6:
             //printUnderperformedStudents();
             break;
 
-        case Average:
+        case 7:
             indexCourse = readIndexCourse();
             printAverage(school, indexCourse);
             break;
 
-        case Export:
+        case 8:
             //exportDatabase();
             break;
-        case Exit:
+
+        case 9:
             for (int level = 0; level < NUM_OF_LEVELES; level++) {
                 for (int cls = 0; cls < NUM_OF_ClASSES; cls++)
                 {
                     freeListNode(school[level][cls]);
                 }
             }
-            //handleClosing();
             break;
         default:
-            printf("\nThere is no item with symbol \"%c\".Please enter a number between 1-10!\nPress any key to continue...",
+            printf("\nThere is no item with symbol \"%d\".Please enter a number between 1-10!\nPress any key to continue...",
                 input);
-            getc(stdin);
-            getc(stdin);
+
             break;
         }
-    } while (input != Exit);
+        while (getchar() != '\n');
+
+    } while (input != 9);
 }
 
 int main()
