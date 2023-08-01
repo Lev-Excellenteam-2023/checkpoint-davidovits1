@@ -1,7 +1,9 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
-#include "Classes.h"
+#include "ListNode.h"
+#include <ctype.h>
+
 
 
 #define MAX_LEVEL 12
@@ -29,13 +31,28 @@ enum menu_inputs {
     Exit = '9'
 };
 
+bool validName(char* name);
+
 char* readPhone()
 {
     char phone[11];
-
+    int i = 0;
     printf("Enter your phone number\n");
-    scanf("%s", &phone);
-
+    scanf("%10s", &phone);
+    while (phone[i] != '\0')
+    {
+        if (!isdigit(phone[i]))
+        {
+            printf("The number is not valid, enter your phone number\n");
+            scanf("%10s", &phone);
+            i = 0;
+        }
+        else
+        {
+            i++;
+        }
+    }
+    
     return phone;
 }
 Student* readStudent()
@@ -46,9 +63,19 @@ Student* readStudent()
 
     printf("Enter your first name\n");
     scanf("%24s", &firstName);
+    while (!validName(firstName))
+    {
+        printf("The first name is not valid, enter your first name\n");
+        scanf("%24s", &firstName);
+    }
 
     printf("Enter your last name\n");
-    scanf("%25s", &lastName);
+    scanf("%24s", &lastName);
+    while (!validName(lastName))
+    {
+        printf("The last name is not valid, enter your last name\n");
+        scanf("%24s", &lastName);
+    }
 
     strcpy(phone, readPhone());
 
@@ -57,6 +84,23 @@ Student* readStudent()
     return s;
 }
 
+bool validName(char* name)
+{
+    int i = 0;
+    while (name[i] != '\0')
+    {
+        if (!isalpha(name[i]))
+        {
+            return false;
+        }
+        else
+        {
+            i++;
+        }
+    }
+    return true;
+
+}
 int readLevel()
 {
     int level;
@@ -74,18 +118,18 @@ int readLevel()
 int readClass()
 {
     int cls;
-    printf("Enter your level\n");
+    printf("Enter your class\n");
     scanf("%d", &cls);
 
     while (cls < MIN_CLASS || cls > MAX_CLAAS)
     {
-        printf("Level does not exist, try again\n");
+        printf("Class does not exist, try again\n");
         scanf("%d", &cls);
     }
     return cls;
 }
 
-void printAllStudents(Classes* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
+void printAllStudents(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
 {
     for (int level = 0; level < NUM_OF_LEVELES; level++) {
         for (int cls = 0; cls < NUM_OF_ClASSES; cls++)
@@ -148,7 +192,7 @@ Student* search(char* phone, Student* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
     return NULL;
 }
 
-bool deleteStudentByPhone(Classes* school[NUM_OF_LEVELES][NUM_OF_ClASSES], char* phone)
+bool deleteStudentByPhone(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES], char* phone)
 {
     bool deleted = false;
     for (int level = 0; level < NUM_OF_LEVELES; level++) {
@@ -168,7 +212,7 @@ bool deleteStudentByPhone(Classes* school[NUM_OF_LEVELES][NUM_OF_ClASSES], char*
 
 }
 
-void edit(Classes* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
+void edit(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
 {
     int index, grade;
     char phone[11];
@@ -204,7 +248,7 @@ void edit(Classes* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
     printStudent(s);
 }
 
-void printAverage(Classes* school[NUM_OF_LEVELES][NUM_OF_ClASSES], int indexCourse)
+void printAverage(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES], int indexCourse)
 {
     for (int level = 0; level < NUM_OF_LEVELES; level++) {
 
@@ -218,7 +262,7 @@ void printAverage(Classes* school[NUM_OF_LEVELES][NUM_OF_ClASSES], int indexCour
     }
 }
 
-void menu(Classes* school[NUM_OF_LEVELES][NUM_OF_ClASSES]) 
+void menu(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES]) 
 {
     Student* s;
     char input;
@@ -284,7 +328,7 @@ void menu(Classes* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
             if (s != NULL)
             {
                 printf("%s ", phone);
-                printStudent(s);
+                printName(s);
             }
             else
                 printf("Student does not exist\n");
@@ -315,7 +359,7 @@ void menu(Classes* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
             for (int level = 0; level < NUM_OF_LEVELES; level++) {
                 for (int cls = 0; cls < NUM_OF_ClASSES; cls++)
                 {
-                    freeClasses(school[level][cls]);
+                    freeListNode(school[level][cls]);
                 }
             }
             //handleClosing();
@@ -332,12 +376,12 @@ void menu(Classes* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
 
 int main()
 {
-    Classes* school[NUM_OF_LEVELES][NUM_OF_ClASSES];
+    ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES];
 
     for (int level = 0; level < NUM_OF_LEVELES; level++) {
         for (int cls = 0; cls < NUM_OF_ClASSES; cls++)
         {
-            school[level][cls] = createClasses();
+            school[level][cls] = createListNode();
         }
 
     }
@@ -371,7 +415,6 @@ int main()
 
             Student* st = createStudent(items[0], items[1], items[2]);
             fillGrades(st, grade);
-            //Classes* c = createClasses();
             school[level][cls] = addNode(school[level][cls], st);
         }
 

@@ -1,15 +1,15 @@
-#include "Classes.h"
+#include "ListNode.h"
 
-Classes* createClasses()
+ListNode* createListNode()
 {
-	Classes* newClasses = (Classes*)malloc(sizeof(Classes));
+	ListNode* newClasses = (ListNode*)malloc(sizeof(ListNode));
 	if (newClasses != NULL) {
 		newClasses->head = NULL;
 	}
 	return newClasses;
 }
 
-Classes* addNode(Classes* classes, Student* student)
+ListNode* addNode(ListNode* classes, Student* student)
 {
 	//first element
 	if (classes->head == NULL)
@@ -28,7 +28,7 @@ Classes* addNode(Classes* classes, Student* student)
 
 }
 
-Student* searchStudent(Classes* cls, char* phone)
+Student* searchStudent(ListNode* cls, char* phone)
 {
 	if (cls->head == NULL)
 	{
@@ -56,7 +56,7 @@ Student* searchStudent(Classes* cls, char* phone)
 	}
 }
 
-void print(Classes* classes)
+void print(ListNode* classes)
 {
 	Node* temp = classes->head;
 	while (temp != NULL)
@@ -66,7 +66,7 @@ void print(Classes* classes)
 	}
 }
 
-bool deleatStudent(Classes* cls, char* phone)
+bool deleatStudent(ListNode* cls, char* phone)
 {
 	Node* n = cls->head;
 	if (n != NULL)
@@ -94,7 +94,7 @@ bool deleatStudent(Classes* cls, char* phone)
 	return false;
 }
 
-double averageClasses(Classes* cls, int indexCourse)
+double averageClasses(ListNode* cls, int indexCourse)
 {
 	double avg = 0.0;
 	int count = 0;
@@ -108,7 +108,7 @@ double averageClasses(Classes* cls, int indexCourse)
 	return avg / count;
 }
 
-void freeClasses(Classes* classes)
+void freeListNode(ListNode* classes)
 {
 	Node* temp = classes->head;
 	while (temp != NULL)
