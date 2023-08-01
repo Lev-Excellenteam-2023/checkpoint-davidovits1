@@ -21,6 +21,11 @@ Student* createStudent(const char* firstName, const char* lastName, const char* 
     return newStudent;
 }
 
+void printName(Student* s)
+{
+    printf("%s %s\n", s->firstName, s->lastName);
+}
+
 void fillGrades(Student* student, const int* grades) {
     for (int i = 0; i < NUM_OF_GRADES; i++) {
         student->grades[i] = grades[i];

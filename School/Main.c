@@ -28,6 +28,15 @@ enum menu_inputs {
     Exit = '9'
 };
 
+char* readPhone()
+{
+    char phone[11];
+
+    printf("Enter your phone number\n");
+    scanf("%s", &phone);
+
+    return phone;
+}
 Student* readStudent()
 {
     char firstName[25];
@@ -38,10 +47,10 @@ Student* readStudent()
     scanf("%s", &firstName);
 
     printf("Enter your last name\n");
-    scanf("%s", &firstName);
+    scanf("%s", &lastName);
 
-    printf("Enter your phone number\n");
-    scanf("%s", &phone);
+    strcpy(phone, readPhone());
+
 
     Student* s = createStudent(firstName, lastName, phone);
     return s;
@@ -62,6 +71,23 @@ void readGrads(Student* s)
 
     }
     fillGrades(s, grades);
+}
+
+Student* search(char* phone, Student* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
+{
+    Student* s;
+    for (int level = 0; level < NUM_OF_LEVELES; level++) {
+        for (int cls = 0; cls < NUM_OF_ClASSES; cls++)
+        {
+            s = searchStudent(school[level][cls], phone);
+            if (s != NULL)
+            {
+                return s;
+            }
+        }
+
+    }
+    return NULL;
 }
 
 void menu(Classes* school[NUM_OF_LEVELES][NUM_OF_ClASSES]) {
@@ -104,6 +130,8 @@ void menu(Classes* school[NUM_OF_LEVELES][NUM_OF_ClASSES]) {
                 scanf("%d", &level);
             }
 
+            level--;
+
             printf("Enter your class\n");
             scanf("%d", &cls);
 
@@ -112,6 +140,8 @@ void menu(Classes* school[NUM_OF_LEVELES][NUM_OF_ClASSES]) {
                 printf("class does not exist, try again");
                 scanf("%d", &cls);
             }
+
+            cls--;
             
             readGrads(s);
 
@@ -125,7 +155,17 @@ void menu(Classes* school[NUM_OF_LEVELES][NUM_OF_ClASSES]) {
             //editStudentGrade();
             break;
         case Search:
-            //searchStudent();
+            strcpy(phone, readPhone());
+            s = search(phone, school);
+            if (s != NULL)
+            {
+                printf("%s ", phone);
+                printName(s);
+            }
+            else
+            {
+                printf("Student does not exist\n");
+            }
             break;
         case Showall:
             //printAllStudents();

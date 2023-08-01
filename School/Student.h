@@ -22,3 +22,5 @@ void fillGrades(Student* student, const int* grades);
 
 // Function to free the memory allocated for the student
 void freeStudent(Student* student);
+
+void printName(Student* s);

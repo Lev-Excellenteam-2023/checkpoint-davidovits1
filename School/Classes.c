@@ -28,6 +28,37 @@ Classes* addNode(Classes* classes, Student* student)
 
 }
 
+Student* searchStudent(Classes* cls, char* phone)
+{
+	if (cls->head == NULL)
+	{
+		return NULL;
+	}
+
+	else
+	{
+		Node* temp = cls->head;
+		while (temp != NULL && temp->next != NULL)
+		{
+			if (temp->student != NULL)
+			{
+				if (strcmp(temp->student->phone, phone) == 0)
+				{
+					return temp->student;
+				}
+			}
+			if (temp->next == NULL)
+			{
+				printf("hii");
+			}
+
+			temp = temp->next;
+		}
+
+		return NULL;
+	}
+}
+
 void print(Classes* classes)
 {
 	Node* temp = classes->head;
@@ -49,3 +80,4 @@ void freeClasses(Classes* classes)
 	}
 	free(classes);
 }
+
