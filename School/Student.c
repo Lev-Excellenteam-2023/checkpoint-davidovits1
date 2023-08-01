@@ -26,6 +26,14 @@ void printName(Student* s)
     printf("%s %s\n", s->firstName, s->lastName);
 }
 
+void editStudent(Student* s, int index, int grade)
+{
+    if (s != NULL)
+    {
+        s->grades[index] = grade;
+    }
+}
+
 void fillGrades(Student* student, const int* grades) {
     for (int i = 0; i < NUM_OF_GRADES; i++) {
         student->grades[i] = grades[i];
@@ -38,4 +46,14 @@ void freeStudent(Student* student) {
         free(student->lastName);
     }
     free(student);
+}
+
+void printStudent(Student* s)
+{
+    printf("%s %s %s", s->firstName, s->lastName, s->phone);
+    for (int i = 0; i < 10; i++)
+    {
+        printf(" %d", s->grades[i]);
+    }
+    printf("\n");
 }

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define NUM_OF_GRADES 10
 #define LEN_PHONE 11
@@ -24,3 +25,7 @@ void fillGrades(Student* student, const int* grades);
 void freeStudent(Student* student);
 
 void printName(Student* s);
+
+void printStudent(Student* s);
+
+void editStudent(Student* s, int index, int grade);

@@ -14,3 +14,7 @@ Student* searchStudent(Classes* cls, char* phone);
 void print(Classes* classes);
 
 void freeClasses(Classes* classes);
+
+bool deleatStudent(Classes* cls, char* phone);
+
+double averageClasses(Classes* cls, int indexCourse);
