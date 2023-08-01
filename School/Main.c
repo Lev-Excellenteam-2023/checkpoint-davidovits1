@@ -36,6 +36,11 @@ bool validName(char* name);
 char* readPhone()
 {
     char* phone = (char*)malloc(11);
+    if (phone == NULL) {
+        printf("Memory allocation failed.\n");
+        return NULL;
+    }
+
     int i = 0;
     printf("Enter your phone number\n");
     scanf("%10s", phone);
@@ -63,19 +68,19 @@ Student* readStudent()
     char* tempPhone;
 
     printf("Enter your first name\n");
-    scanf("%24s", &firstName);
+    scanf("%24s", firstName);
     while (!validName(firstName))
     {
         printf("The first name is not valid, enter your first name\n");
-        scanf("%24s", &firstName);
+        scanf("%24s", firstName);
     }
 
     printf("Enter your last name\n");
-    scanf("%24s", &lastName);
+    scanf("%24s", lastName);
     while (!validName(lastName))
     {
         printf("The last name is not valid, enter your last name\n");
-        scanf("%24s", &lastName);
+        scanf("%24s", lastName);
     }
     tempPhone = readPhone();
     strcpy(phone, tempPhone);
@@ -163,7 +168,7 @@ int readIndexCourse()
 int readGrade()
 {
     int grade;
-    printf("enter grade to change\n");
+    printf("enter a grade\n");
     scanf("%d", &grade);
 
     while (grade < MIN_GRADE || grade > MAX_GRADE)
@@ -185,7 +190,7 @@ void readGrads(Student* s)
     fillGrades(s, grades);
 }
 
-Student* search(char* phone, Student* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
+Student* search(char* phone, ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
 {
     Student* s;
     for (int level = 0; level < NUM_OF_LEVELES; level++) {
@@ -434,6 +439,3 @@ int main()
 
     return 0;
 }
-
-
-
