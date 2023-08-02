@@ -69,6 +69,8 @@ Student* readStudent()
     char lastName[25];
     char phone[11];
     char* tempPhone;
+    int level;
+    int cls;
 
     printf("Enter your first name\n");
     scanf("%24s", firstName);
@@ -90,7 +92,13 @@ Student* readStudent()
     free(tempPhone);
     tempPhone = NULL;
 
-    Student* s = createStudent(firstName, lastName, phone);
+    level = readLevel();
+    level--;
+
+    cls = readClass();
+    cls--;
+
+    Student* s = createStudent(firstName, lastName, phone, level, cls);
     return s;
 }
 
@@ -211,29 +219,28 @@ Student* search(char* phone, ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
 void topTen(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
 {
     Student* topStudent[TOP_STUDENTS];
-    double topStudentAvg[TOP_STUDENTS];
+    double avgStudent;
 
     for (int level = 0; level < NUM_OF_LEVELES; level++) {
       
         for (int i = 0; i < TOP_STUDENTS; i++)
         {
             topStudent[i] = school[level][i]->head->student;
-            topStudentAvg[i] = averageStudent(school[level][i]->head->student);
+            avgStudent = averageStudent(school[level][i]->head->student);
         }
+        qsort(topStudent, TOP_STUDENTS, sizeof(Student*), compareStudents);
         for (int cls = 0; cls < NUM_OF_ClASSES; cls++)
         {
-            topTenPerClass(school[level][cls], topStudent, topStudentAvg);
+            topTenPerClass(school[level][cls], topStudent);
         }
-        printf("top ten of level %d:\n", level);
+        printf("\ntop ten of level %d:\n\n", level + 1);
         for (int i = 0; i < TOP_STUDENTS; i++)
         {
-            printName(topStudent[i]);
+            printf("%.2f ", topStudent[i]->_avg);
+            printStudent(topStudent[i]);
         }
     }
-    for (int i = 0; i < TOP_STUDENTS; i++)
-    {
-
-    }
+ 
 }
 
 bool deleteStudentByPhone(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES], char* phone)
@@ -295,7 +302,7 @@ void printAverage(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES], int indexCou
             avg += averageClasses(school[level][cls], indexCourse);
         }
         avg = avg / NUM_OF_ClASSES;
-        printf("average course %d level %d : %f\n", indexCourse, level, avg);
+        printf("average course %d level %d : %f\n", indexCourse, level + 1, avg);
     }
 }
 
@@ -336,11 +343,9 @@ void menu(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
         case 0:
             s = readStudent();
 
-            level = readLevel();
-            level--;
+            level = s->_level;
 
-            cls = readClass();
-            cls--;
+            cls = s->_cls;
      
             readGrads(s);
 
@@ -388,6 +393,7 @@ void menu(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
             break;
 
         case 5:
+            topTen(school);
             //printTopNStudentsPerCourse();
             break;
 
@@ -462,7 +468,7 @@ int main()
                 grade[i] = atoi(items[i + 5]);
             }
 
-            Student* st = createStudent(items[0], items[1], items[2]);
+            Student* st = createStudent(items[0], items[1], items[2], level, cls);
             fillGrades(st, grade);
             school[level][cls] = addNode(school[level][cls], st);
         }

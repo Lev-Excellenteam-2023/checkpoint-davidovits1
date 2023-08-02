@@ -13,10 +13,13 @@ typedef struct {
     char* lastName;
     char phone[LEN_PHONE];
     int grades[NUM_OF_GRADES];
+    int _level;
+    int _cls;
+    double _avg;
 }Student;
 
 // Function to create a new student
-Student* createStudent(const char* firstName, const char* lastName, const char* phone);
+Student* createStudent(const char* firstName, const char* lastName, const char* phone, int level, int cls);
 
 // Function to fill grades in the student
 void fillGrades(Student* student, const int* grades);
@@ -31,3 +34,5 @@ void printStudent(Student* s);
 void editStudent(Student* s, int index, int grade);
 
 double averageStudent(Student* s);
+
+int compareStudents(const void* ptr1, const void* ptr2);

@@ -120,30 +120,66 @@ void freeListNode(ListNode* classes)
 	free(classes);
 }
 
-double* topTenPerClass(ListNode* cls, Student** topTenStudents, double* topTenAvg)
+void topTenPerClass(ListNode* cls, Student** topTenStudents)
 {
-	Student* s;
-	//Node* tempTop;
-	double avg = 0.0;
+	Student* tempStudent1;
+	Student* tempStudent2;
+	double myAvg, otherAvg = 0.0;
 	double min;
 	Node* temp = cls->head;
 	while (temp != NULL)
 	{
 		min = 0.0;
-		avg = averageStudent(temp->student);
-		//tempTop = topTenStudents->head;
+		myAvg = averageStudent(temp->student);
+		if (myAvg == 100)
+		{
+			printf("\n ");
+		}
 		for (int i = 0; i < 10; i++)
 		{
-			
-			if (avg > topTenAvg[i])
+			otherAvg = topTenStudents[i]->_avg;
+			//A case where the student is already on the top
+
+
+			if (myAvg > otherAvg)
 			{
-				s = topTenStudents[i];
+				while (myAvg > otherAvg && ++i < 10)
+				{
+					otherAvg = topTenStudents[i]->_avg;
+				}
+				if (i < 10)
+				{
+					if (strcmp(temp->student->phone, topTenStudents[i]->phone) == 0)
+					{
+						break;
+					}
+				}
+				--i;
+				
+				if (strcmp(temp->student->phone, topTenStudents[i]->phone) == 0)
+				{
+					break;
+				}
+				tempStudent1 = topTenStudents[i];
 				topTenStudents[i] = temp->student;
-				min = topTenAvg[i];
-				topTenAvg[i] = avg;
+				while (i != 0)
+				{
+					tempStudent2 = topTenStudents[--i];
+					topTenStudents[i] = tempStudent1;
+					tempStudent1 = tempStudent2;
+				}
+				break;
+			}
+			else
+			{
+				//A case where the student is already on the top
+				if (strcmp(temp->student->phone, topTenStudents[i]->phone) == 0)
+				{
+					break;
+				}
 			}
 		}
 		temp = temp->next;
 	}
-	return avg;
+	
 }
