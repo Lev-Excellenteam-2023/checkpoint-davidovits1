@@ -18,6 +18,8 @@
 #define NUM_OF_LEVELES 12
 #define NUM_OF_ClASSES 10
 
+#define TOP_STUDENTS 10
+
 enum menu_inputs {
     Insert = '0',
     Delete = '1',
@@ -32,6 +34,7 @@ enum menu_inputs {
 };
 
 bool validName(char* name);
+void topTen(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES]);
 
 char* readPhone()
 {
@@ -203,6 +206,34 @@ Student* search(char* phone, ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
 
     }
     return NULL;
+}
+
+void topTen(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES])
+{
+    Student* topStudent[TOP_STUDENTS];
+    double topStudentAvg[TOP_STUDENTS];
+
+    for (int level = 0; level < NUM_OF_LEVELES; level++) {
+      
+        for (int i = 0; i < TOP_STUDENTS; i++)
+        {
+            topStudent[i] = school[level][i]->head->student;
+            topStudentAvg[i] = averageStudent(school[level][i]->head->student);
+        }
+        for (int cls = 0; cls < NUM_OF_ClASSES; cls++)
+        {
+            topTenPerClass(school[level][cls], topStudent, topStudentAvg);
+        }
+        printf("top ten of level %d:\n", level);
+        for (int i = 0; i < TOP_STUDENTS; i++)
+        {
+            printName(topStudent[i]);
+        }
+    }
+    for (int i = 0; i < TOP_STUDENTS; i++)
+    {
+
+    }
 }
 
 bool deleteStudentByPhone(ListNode* school[NUM_OF_LEVELES][NUM_OF_ClASSES], char* phone)

@@ -120,3 +120,30 @@ void freeListNode(ListNode* classes)
 	free(classes);
 }
 
+double* topTenPerClass(ListNode* cls, Student** topTenStudents, double* topTenAvg)
+{
+	Student* s;
+	//Node* tempTop;
+	double avg = 0.0;
+	double min;
+	Node* temp = cls->head;
+	while (temp != NULL)
+	{
+		min = 0.0;
+		avg = averageStudent(temp->student);
+		//tempTop = topTenStudents->head;
+		for (int i = 0; i < 10; i++)
+		{
+			
+			if (avg > topTenAvg[i])
+			{
+				s = topTenStudents[i];
+				topTenStudents[i] = temp->student;
+				min = topTenAvg[i];
+				topTenAvg[i] = avg;
+			}
+		}
+		temp = temp->next;
+	}
+	return avg;
+}

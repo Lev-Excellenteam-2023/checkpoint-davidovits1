@@ -18,3 +18,5 @@ void freeListNode(ListNode* classes);
 bool deleatStudent(ListNode* cls, char* phone);
 
 double averageClasses(ListNode* cls, int indexCourse);
+
+double* topTenPerClass(ListNode* cls, ListNode* topTenStudents, double* topTenAvg);

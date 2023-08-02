@@ -57,3 +57,13 @@ void printStudent(Student* s)
     }
     printf("\n");
 }
+
+double averageStudent(Student* s)
+{
+    double avg = 0.0;
+    for (int i = 0; i < NUM_OF_GRADES; i++)
+    {
+        avg += s->grades[i];
+    }
+    return avg / NUM_OF_GRADES;
+}

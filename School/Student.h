@@ -29,3 +29,5 @@ void printName(Student* s);
 void printStudent(Student* s);
 
 void editStudent(Student* s, int index, int grade);
+
+double averageStudent(Student* s);
